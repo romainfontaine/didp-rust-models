@@ -1,0 +1,24 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "tsptw",
+    "cvrp",
+    "m-pdtsp",
+    "optw",
+    "mdkp",
+    "bin-packing",
+    "salbp-1",
+    "wt",
+    "talent-scheduling",
+    "mosp",
+    "graph-clear",
+    "knapsack",
+    "misp",
+    "golomb-ruler",
+    "io-util",
+]
+
+[profile.release]
+lto = true
+codegen-units = 1

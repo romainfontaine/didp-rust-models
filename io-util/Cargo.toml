@@ -1,0 +1,8 @@
+[package]
+name = "io-util"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+dypdl = "0.8.0"
+dypdl-heuristic-search = "0.8.0"

@@ -1,0 +1,15 @@
+[package]
+name = "m-pdtsp"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+fixedbitset = "0.5"
+clap = { version = "4.5", features = ["derive"] }
+tikv-jemallocator = "0.6"
+rpid = "0.1.0"
+tsplib-parser = "0.1.0"
+itertools = "0.13"
+dypdl = "0.8.0"
+dypdl-heuristic-search = "0.8.0"
+io-util = { version = "0.1", path = "../io-util" }
