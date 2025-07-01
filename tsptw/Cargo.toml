@@ -11,3 +11,4 @@ rpid = "0.1.0"
 dypdl = "0.8.0"
 dypdl-heuristic-search = "0.8.0"
 io-util = { version = "0.1", path = "../io-util" }
+proc-status = "0.1.1"

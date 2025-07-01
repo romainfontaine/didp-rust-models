@@ -4,6 +4,7 @@ use rpid::prelude::*;
 use rpid::{algorithms, io, solvers, timer::Timer};
 use std::cmp::{self, Ordering};
 use tsptw::{Args, Instance, SimplificationChoice, SolverChoice};
+use proc_status::ProcStatus;
 
 #[cfg(not(target_env = "msvc"))]
 use tikv_jemallocator::Jemalloc;
@@ -208,4 +209,6 @@ fn main() {
             println!("The solution is invalid.");
         }
     }
+    let ps = ProcStatus::read().unwrap();
+    println!("VmPeak: {}", ps.value_KiB("VmPeak").unwrap());
 }
