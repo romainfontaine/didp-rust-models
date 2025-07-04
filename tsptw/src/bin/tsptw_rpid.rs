@@ -95,12 +95,7 @@ impl Dp for Tsptw {
                     };
                     // don't remove 'next' from unvisited
                     // don't 'self.check_feasibility(&successor)'
-                    let weight = if self.minimize_makespan {
-                        time - state.time
-                    } else {
-                        distance
-                    };
-                    return vec![(successor, weight, next)];
+                    return vec![(successor, distance, next)];
                 }
             }
             return vec![];
