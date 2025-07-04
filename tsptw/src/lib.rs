@@ -44,7 +44,7 @@ impl Instance {
     }
 
     fn validate_inner(&self, tour: &[usize], cost: i32, minimize_makespan: bool) -> bool {
-        if tour.len() != self.a.len() - 1 {
+        if tour.len() != self.a.len() {
             println!("Invalid tour length: {}", tour.len());
 
             return false;
@@ -55,7 +55,7 @@ impl Instance {
         let mut visited = vec![false; self.a.len()];
         let mut recomputed_cost = 0;
 
-        for &next in tour.iter().chain(std::iter::once(&0)) {
+        for &next in tour.iter() {
             if next >= self.a.len() {
                 println!("Invalid node index: {}", next);
 

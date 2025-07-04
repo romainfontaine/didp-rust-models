@@ -82,6 +82,29 @@ impl Dp for Tsptw {
         &self,
         state: &TsptwState,
     ) -> impl IntoIterator<Item = (TsptwState, i32, usize)> {
+        if state.unvisited.is_clear() {
+            let next = 0;
+            if let Some(distance) = self.instance.c[state.current][next] {
+                let time = state.time + distance;
+                // (no waiting possible here)
+                if time <= self.instance.b[next] {
+                    let successor = TsptwState {
+                        unvisited: state.unvisited.clone(),
+                        current: next,
+                        time,
+                    };
+                    // don't remove 'next' from unvisited
+                    // don't 'self.check_feasibility(&successor)'
+                    let weight = if self.minimize_makespan {
+                        time - state.time
+                    } else {
+                        distance
+                    };
+                    return vec![(successor, weight, next)];
+                }
+            }
+            return vec![];
+        }
         state.unvisited.ones().filter_map(|next| {
             if let Some(distance) = self.instance.c[state.current][next] {
                 let time = cmp::max(state.time + distance, self.instance.a[next]);
@@ -113,12 +136,12 @@ impl Dp for Tsptw {
             } else {
                 None
             }
-        })
+        }).collect()
     }
 
     fn get_base_cost(&self, state: &TsptwState) -> Option<i32> {
-        if state.unvisited.is_clear() {
-            self.instance.c[state.current][0]
+        if state.unvisited.is_clear() && state.current == 0 {
+            Some(0)
         } else {
             None
         }
@@ -143,6 +166,13 @@ impl Bound for Tsptw {
     type CostType = i32;
 
     fn get_dual_bound(&self, state: &Self::State) -> Option<Self::CostType> {
+        if state.unvisited.is_clear() {
+            if state.current == 0 {
+                return Some(0);
+            } else {
+                return self.instance.c[state.current][0];
+            }
+        }
         let bound_to = state.unvisited.ones().map(|i| self.min_to[i]).sum::<i32>() + self.min_to[0];
         let bound_from = self.min_from[state.current]
             + state
